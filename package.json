@@ -50,6 +50,9 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "appmetrics": "^4.0.1",
+    "appmetrics-dash": "^4.1.0",
+    "bluebird": "^3.5.3",
+    "lodash": "^4.17.11",
     "winston": "^3.2.1"
   },
   "devDependencies": {

@@ -1,6 +1,8 @@
 import Logger from './Logger';
 
 export default class Benchmark {
+  appmetrics = true;
+
   iterations = 1000;
 
   logger = new Logger();
@@ -8,13 +10,19 @@ export default class Benchmark {
   message = 'Hello, world!';
 
   constructor(options = {}) {
-    const { iterations = 1000, message = 'Hello, world!' } = options;
+    const {
+      appmetrics = true,
+      iterations = 1000,
+      message = 'Hello, world!'
+    } = options;
+    this.appmetrics = appmetrics;
     this.iterations = iterations;
     this.message = message;
   }
 
   console() {
     return this.logger.console.benchmark({
+      appmetrics: this.appmetrics,
       iterations: this.iterations,
       message: this.message
     });
@@ -22,6 +30,7 @@ export default class Benchmark {
 
   filesystem() {
     return this.logger.filesystem.benchmark({
+      appmetrics: this.appmetrics,
       iterations: this.iterations,
       message: this.message
     });
@@ -29,6 +38,7 @@ export default class Benchmark {
 
   syslog() {
     return this.logger.syslog.benchmark({
+      appmetrics: this.appmetrics,
       iterations: this.iterations,
       message: this.message
     });
