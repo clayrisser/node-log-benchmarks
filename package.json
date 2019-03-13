@@ -1,0 +1,70 @@
+{
+  "name": "node-log-benchmarks",
+  "version": "0.0.1",
+  "description": "benchmarks for popular node logging libraries",
+  "keywords": [
+    "node-log-benchmarks",
+    "bunyan",
+    "winston",
+    "log4js",
+    "morgan",
+    "log",
+    "logging",
+    "benchmark"
+  ],
+  "homepage": "https://github.com/codejamninja/node-log-benchmarks",
+  "bugs": {
+    "url": "https://github.com/codejamninja/node-log-benchmarks/issues",
+    "email": "jam@codejam.ninja"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Jam Risser",
+    "email": "jam@codejam.ninja",
+    "url": "https://codejam.ninja"
+  },
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "main": "lib/index.js",
+  "bin": {
+    "node-log-benchmarks": "bin/node-log-benchmarks.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codejamninja/node-log-benchmarks"
+  },
+  "scripts": {
+    "build": "npm run test && babel src -d lib",
+    "clean": "git clean -fXd -e \\!node_modules -e \\!node_modules/**/*",
+    "clean:purge": "git clean -fXd",
+    "format": "prettier --write ./src/**/*.js",
+    "lint": "npm run format && eslint ./",
+    "lint:fix": "npm run format && eslint --fix ./",
+    "prepublish": "npm run build",
+    "start": "babel-node src",
+    "start:winston": "babel-node src/winston",
+    "test": "npm run lint"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "appmetrics": "^4.0.1",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/node": "^7.2.0",
+    "babel-preset-jam": "^0.1.0",
+    "eslint": "^5.9.0",
+    "eslint-config-jam": "^0.1.6",
+    "yo": "^2.0.5"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "eslintIgnore": [
+    "lib"
+  ]
+}
