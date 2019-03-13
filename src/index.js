@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import fs from 'fs-extra';
 
 const { argv } = process;
 const name = argv[2];
@@ -26,10 +27,21 @@ async function main() {
       asyncEndTime,
       asyncTime: asyncEndTime - result.startTime
     };
-    // save result to file (winston.console.1000000.appmetrics.json)
+    writeJson();
+    cpus2csv(result.cpus);
+    // save result to file (results/1000000/winston.console.appmetrics.json)
+    // do your csv logic here
     logger.log(result);
   });
   result = await benchmark[metricsName]();
+}
+
+function writeJson(result) {
+  return result;
+}
+
+function cpus2csv() {
+  fs.writeFileSync('filename', 'filecontent');
 }
 
 main();
