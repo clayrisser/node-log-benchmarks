@@ -1,4 +1,5 @@
 import Promise from 'bluebird';
+import _ from 'lodash';
 
 export default class Metrics {
   log = f => f;
@@ -18,7 +19,7 @@ export default class Metrics {
       : {
           on: f => f
         };
-    return new Promise(resolve => {
+    const result = await new Promise(resolve => {
       const cpus = [];
       const gcs = [];
       const loops = [];
@@ -48,5 +49,14 @@ export default class Metrics {
       if (appmetrics) return monitor.emit('benchmarked', result);
       return resolve(result);
     });
+    result.cpus = _.map(result.cpus, cpu => ({
+      ...cpu,
+      relative_time: cpu.time - result.startTime
+    }));
+    result.memories = _.map(result.memories, memory => ({
+      ...memory,
+      relative_time: memory.time - result.startTime
+    }));
+    return result;
   }
 }
