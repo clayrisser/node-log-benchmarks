@@ -40,11 +40,11 @@
     "clean": "git clean -fXd -e \\!node_modules -e \\!node_modules/**/*",
     "clean:purge": "git clean -fXd",
     "format": "prettier --write ./src/**/*.js",
+    "json2csv": "babel-node src/json2csv",
     "lint": "npm run format && eslint ./",
     "lint:fix": "npm run format && eslint --fix ./",
     "prepublish": "npm run build",
     "start": "babel-node src",
-    "start:winston": "babel-node src/winston",
     "test": "npm run lint"
   },
   "dependencies": {
@@ -52,6 +52,7 @@
     "appmetrics": "^4.0.1",
     "appmetrics-dash": "^4.1.0",
     "bluebird": "^3.5.3",
+    "fs-extra": "^7.0.1",
     "lodash": "^4.17.11",
     "winston": "^3.2.1"
   },
