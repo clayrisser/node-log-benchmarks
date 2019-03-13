@@ -26,6 +26,7 @@ async function main() {
       asyncEndTime,
       asyncTime: asyncEndTime - result.startTime
     };
+    // save result to file (winston.console.1000000.appmetrics.json)
     logger.log(result);
   });
   result = await benchmark[metricsName]();
