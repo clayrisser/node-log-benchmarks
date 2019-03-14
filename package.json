@@ -53,6 +53,7 @@
     "appmetrics-dash": "^4.1.0",
     "bluebird": "^3.5.3",
     "bunyan": "^1.8.12",
+    "bunyan-syslog": "^0.3.2",
     "fs-extra": "^7.0.1",
     "json2csv": "^4.3.5",
     "lodash": "^4.17.11",

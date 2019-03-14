@@ -2,7 +2,6 @@ import winston from 'winston';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
-
 const consoleLogger = winston.createLogger({
   transports: [
     new winston.transports.Console({
@@ -14,7 +13,6 @@ const consoleLogger = winston.createLogger({
 const filesystemLogger = winston.createLogger({
   transports: [new winston.transports.File({ filename: 'logs.log' })]
 });
-
 
 export default class WinstonLogger extends Logger {
   filesystem = new Metrics(message => filesystemLogger.info(message));
