@@ -3,7 +3,7 @@ import fs from 'fs';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
-const consoleLogger = morgan('combined');
+const consoleLogger = morgan('combined', { stream: process.stdout });
 
 const accessLogStream = fs.createWriteStream('morgan.log', { flags: 'a' });
 

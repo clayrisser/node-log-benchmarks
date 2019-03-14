@@ -1,20 +1,22 @@
-import winston from 'winston';
+import bunyan from 'bunyan';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
+const consoleLogger = bunyan.createLogger({
+  name: 'console',
+  stream: process.stdout,
+  level: 'info'
+});
 
-const consoleLogger = winston.createLogger({
-  transports: [
-    new winston.transports.Console({
-      format: winston.format.simple()
-    })
+const filesystemLogger = bunyan.createLogger({
+  name: 'filesystem',
+  streams: [
+    {
+      path: 'bunyan.log',
+      type: 'file'
+    }
   ]
 });
-
-const filesystemLogger = winston.createLogger({
-  transports: [new winston.transports.File({ filename: 'logs.log' })]
-});
-
 
 export default class WinstonLogger extends Logger {
   filesystem = new Metrics(message => filesystemLogger.info(message));

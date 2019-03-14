@@ -52,12 +52,14 @@
     "appmetrics": "^4.0.1",
     "appmetrics-dash": "^4.1.0",
     "bluebird": "^3.5.3",
+    "bunyan": "^1.8.12",
     "fs-extra": "^7.0.1",
     "json2csv": "^4.3.5",
     "lodash": "^4.17.11",
     "log4js": "^4.0.2",
     "morgan": "^1.9.1",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "winston-syslog": "^2.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",

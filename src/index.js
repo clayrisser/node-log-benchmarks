@@ -37,8 +37,10 @@ async function main() {
       asyncTime: asyncEndTime - result.startTime
     };
     writeJson(result);
-    memories2csv(result.memories);
-    gcs2csv(result.gcs);
+    json2csv('cpus', result.cpus);
+    json2csv('gcs', result.gcs);
+    json2csv('memories', result.memories);
+    json2csv('loops', result.loops);
 
     // save result to file (results/1000000/winston.console.appmetrics.json)
     // do your csv logic here
@@ -66,27 +68,28 @@ function writeJson(result) {
 }
 
 
-async function gcs2csv(gcs) {
+async function json2csv(matricName, matricsData) {
   let appmetricName = '';
+  let fields;
   if (appmetrics) {
     appmetricName = 'appmetrics.'
   }
-  const fields = ['time', 'type', 'size', 'used', 'duration'];
-  const json2csvParser = new Json2csvParser({ fields });
-  const csv = json2csvParser.parse(gcs);
-  logger.log(csv);
-  fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}gcs.csv`, csv);
-}
+  if (matricName === 'gcs') {
+    fields = ['time', 'type', 'size', 'used', 'duration'];
+  }
+  else if (matricName === 'memories') {
+    fields = ['time', 'physical_total', 'physical_used', 'physical', 'private', 'virtual', 'physical_free', 'relative_time'];
+  }
+  else if (matricName === 'cpus') {
+    fields = ['time', 'process', 'system'];
+  }
+  else if (matricName === 'loops') {
+    fields = ['count', 'minimum', 'maximum', 'average', 'cpu_user', 'cpu_system'];
 
-async function memories2csv(memories) {
-  let appmetricName = '';
-  if (appmetrics) {
-    appmetricName = 'appmetrics.'
   }
-  const fields = ['time', 'physical_total', 'physical_used', 'physical', 'private', 'virtual', 'physical_free', 'relative_time'];
   const json2csvParser = new Json2csvParser({ fields });
-  const csv = json2csvParser.parse(memories);
-  fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}memories.csv`, csv);
+  const csv = json2csvParser.parse(matricsData);
+  fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}${matricName}.csv`, csv);
 }
 
 main();
