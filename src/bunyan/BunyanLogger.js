@@ -21,18 +21,19 @@ const filesystemLogger = bunyan.createLogger({
 
 const syslogLogger = bunyan.createLogger({
   name: 'syslog',
-  streams: [{
-    level: 'info',
-    type: 'raw',
-    stream: bsyslog.createBunyanStream({
-      type: 'sys',
-      facility: bsyslog.local0,
-      host: 'localhost',
-      port: 514
-    })
-  }]
+  streams: [
+    {
+      level: 'info',
+      type: 'raw',
+      stream: bsyslog.createBunyanStream({
+        type: 'sys',
+        facility: bsyslog.local0,
+        host: 'localhost',
+        port: 514
+      })
+    }
+  ]
 });
-
 
 export default class WinstonLogger extends Logger {
   filesystem = new Metrics(message => filesystemLogger.info(message));

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ITERATIONS=100
+export ITERATIONS=10
 
 npm run start -- winston:console $ITERATIONS
 npm run start -- winston:console $ITERATIONS --appmetrics
