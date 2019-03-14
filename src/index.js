@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 
 const Json2csvParser = require('json2csv').Parser;
+const ObjectsToCsv = require('objects-to-csv');
 
 
 const { argv } = process;
@@ -38,7 +39,9 @@ async function main() {
       asyncTime: asyncEndTime - result.startTime
     };
     writeJson(result);
-    cpus2csv(result.cpus);
+    memories2csv(result.memories);
+    gcs2csv(result.gcs);
+
     // save result to file (results/1000000/winston.console.appmetrics.json)
     // do your csv logic here
     logger.log(result);
@@ -64,34 +67,28 @@ function writeJson(result) {
   return result;
 }
 
-async function cpus2csv(result) {
+
+async function gcs2csv(gcs) {
   let appmetricName = '';
   if (appmetrics) {
     appmetricName = 'appmetrics.'
   }
-  // const fields = ['End Time', 'Iterations', 'Message'];
+  const fields = ['time', 'type', 'size', 'used', 'duration'];
+  const json2csvParser = new Json2csvParser({ fields });
+  const csv = json2csvParser.parse(gcs);
+  logger.log(csv);
+  fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}gcs.csv`, csv);
+}
 
-  // const myCars = [
-  //   {
-  //     "car": "Audi",
-  //     "price": 40000,
-  //     "color": "blue"
-  //   }, {
-  //     "car": "BMW",
-  //     "price": 35000,
-  //     "color": "black"
-  //   }, {
-  //     "car": "Porsche",
-  //     "price": 60000,
-  //     "color": "green"
-  //   }
-  // ];
-
-  // const json2csvParser = new Json2csvParser({ fields });
-  // const csv = json2csvParser.parse(myCars);
-
-  // fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}cpus.csv`, csv);
-  console.log(`results/${iterations}/${benchmarkName}.console.${appmetricName}cpus.csv`);
+async function memories2csv(memories) {
+  let appmetricName = '';
+  if (appmetrics) {
+    appmetricName = 'appmetrics.'
+  }
+  const fields = ['time', 'physical_total', 'physical_used', 'physical', 'private', 'virtual', 'physical_free', 'relative_time'];
+  const json2csvParser = new Json2csvParser({ fields });
+  const csv = json2csvParser.parse(memories);
+  fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}memories.csv`, csv);
 }
 
 main();
