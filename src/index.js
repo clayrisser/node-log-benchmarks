@@ -3,8 +3,6 @@ import fs from 'fs-extra';
 import path from 'path';
 
 const Json2csvParser = require('json2csv').Parser;
-const ObjectsToCsv = require('objects-to-csv');
-
 
 const { argv } = process;
 const name = argv[2];
