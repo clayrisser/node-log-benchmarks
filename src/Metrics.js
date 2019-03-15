@@ -32,11 +32,13 @@ export default class Metrics {
       monitor.on('memory', memory => memories.push(memory));
       monitor.on('benchmarked', resolve);
       const startTime = Date.now();
+      const hrStart = process.hrtime();
       for (let i = 0; i < iterations; i++) {
         this.log(message);
       }
-      const endTime = Date.now();
-      const time = endTime - startTime;
+      const hrEnd = process.hrtime(hrStart);
+      const time = hrEnd[0] * 1000 + hrEnd[1] / 1000000;
+      const endTime = startTime + hrEnd;
       const result = {
         cpus,
         endTime,
