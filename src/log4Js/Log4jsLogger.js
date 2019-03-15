@@ -2,22 +2,22 @@ import log4js from 'log4js';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
+
 log4js.configure({
   appenders: {
     fileLogs: { type: 'file', filename: 'log4js.log' },
     console: { type: 'console' },
     syslog: {
-      type: 'log4js-qradar-syslog-appender',
-      options: {
-        host: 'syslog.prd.ccs.ibmcloud.com',
-        port: 6514,
-        facility: 'local0',
+      type: 'log4js-syslog-appender',
+    
+        host: 'localhost',
+        port: 514,
         protocol: 'unix',
         path: '/dev/log',
-        tag: 'Log4js Node logging Benchmark',
-        product: 'otc-api"',
-        url: 'devops.ng.bluemix.net'
-      }
+        facility: 'local0',
+        useUdpSyslog: true,
+        product: 'basic-udp-test'
+      
     }
   },
   categories: {
@@ -34,7 +34,6 @@ const filesystemLogger = log4js.getLogger('filesystem');
 
 const sysLogger = log4js.getLogger('syslog');
 
-sysLogger.info('vijaya kandi vfdgdfg');
 
 export default class Log4jsLogger extends Logger {
   filesystem = new Metrics(message => filesystemLogger.info(message));

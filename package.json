@@ -49,11 +49,14 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@log4js-node/logstashudp": "^1.0.0",
+    "ain2": "^3.0.0",
     "appmetrics": "^4.0.1",
     "appmetrics-dash": "^4.1.0",
     "bluebird": "^3.5.3",
     "bunyan": "^1.8.12",
     "bunyan-syslog": "^0.3.2",
+    "express": "^4.16.4",
     "fs-extra": "^7.0.1",
     "json2csv": "^4.3.5",
     "lodash": "^4.17.11",
@@ -61,6 +64,8 @@
     "log4js-qradar-syslog-appender": "^1.0.0",
     "log4js-syslog-appender": "^0.3.2",
     "morgan": "^1.9.1",
+    "syslog": "^0.1.1-1",
+    "syslogudp": "^0.0.5",
     "winston": "^3.2.1",
     "winston-syslog": "^2.1.0"
   },
