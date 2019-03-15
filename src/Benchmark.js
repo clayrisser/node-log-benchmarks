@@ -7,6 +7,8 @@ export default class Benchmark {
 
   logger = new Logger();
 
+  loggerName = '';
+
   message = 'Hello, world!';
 
   constructor(options = {}) {
@@ -24,7 +26,9 @@ export default class Benchmark {
     return this.logger.console.benchmark({
       appmetrics: this.appmetrics,
       iterations: this.iterations,
-      message: this.message
+      loggerName: this.loggerName,
+      message: this.message,
+      transportName: 'console'
     });
   }
 
@@ -32,7 +36,9 @@ export default class Benchmark {
     return this.logger.filesystem.benchmark({
       appmetrics: this.appmetrics,
       iterations: this.iterations,
-      message: this.message
+      loggerName: this.loggerName,
+      message: this.message,
+      transportName: 'filesystem'
     });
   }
 
@@ -40,7 +46,9 @@ export default class Benchmark {
     return this.logger.syslog.benchmark({
       appmetrics: this.appmetrics,
       iterations: this.iterations,
-      message: this.message
+      loggerName: this.loggerName,
+      message: this.message,
+      transportName: 'syslog'
     });
   }
 }

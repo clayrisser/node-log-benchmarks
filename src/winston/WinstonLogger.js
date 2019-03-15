@@ -1,8 +1,8 @@
 import winston from 'winston';
+// eslint-disable-next-line no-unused-vars
+import { Syslog } from 'winston-syslog';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
-
-require('winston-syslog').Syslog;
 
 const consoleLogger = winston.createLogger({
   transports: [

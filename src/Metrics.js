@@ -10,9 +10,11 @@ export default class Metrics {
 
   async benchmark(options) {
     const {
+      appmetrics = true,
       iterations = 1000,
+      loggerName,
       message = 'Hello, world!',
-      appmetrics = true
+      transportName
     } = options;
     const monitor = appmetrics
       ? require('./monitor').default
@@ -40,11 +42,13 @@ export default class Metrics {
         endTime,
         gcs,
         iterations,
+        loggerName,
         loops,
         memories,
         message,
         startTime,
-        time
+        time,
+        transportName
       };
       if (appmetrics) return monitor.emit('benchmarked', result);
       return resolve(result);
@@ -57,6 +61,9 @@ export default class Metrics {
       ...memory,
       relative_time: memory.time - result.startTime
     }));
+    if (loggerName === 'winston' && transportName === 'syslog') {
+      setTimeout(() => process.exit(), 0);
+    }
     return result;
   }
 }
