@@ -18,19 +18,18 @@ const filesystemLogger = winston.createLogger({
 
 const options = {
   level: 'info',
-  type: 'sys',
+  type: '5424',
   host: 'localhost',
   port: 514,
   facility: 'local0',
-  protocol: "unix",
-  path: "/dev/log",
-  app_name:"Node logging Benchmark"
-}
+  protocol: 'unix',
+  path: '/dev/log',
+  app_name: 'Node logging Benchmark'
+};
 
 const syslogLogger = winston.createLogger({
   transports: [new winston.transports.Syslog(options)]
 });
-
 
 export default class WinstonLogger extends Logger {
   filesystem = new Metrics(message => filesystemLogger.info(message));
