@@ -18,9 +18,9 @@ npm run start -- log4js:filesystem $ITERATIONS --appmetrics
 npm run start -- bunyan:filesystem $ITERATIONS
 npm run start -- bunyan:filesystem $ITERATIONS --appmetrics
 
-# npm run start -- winston:syslog $ITERATIONS
-# npm run start -- winston:syslog $ITERATIONS --appmetrics
-# npm run start -- log4js:syslog $ITERATIONS
-# npm run start -- log4js:syslog $ITERATIONS --appmetrics
-# npm run start -- bunyan:syslog $ITERATIONS
-# npm run start -- bunyan:syslog $ITERATIONS --appmetrics
+npm run start -- winston:syslog $ITERATIONS
+npm run start -- winston:syslog $ITERATIONS --appmetrics
+npm run start -- log4js:syslog $ITERATIONS
+npm run start -- log4js:syslog $ITERATIONS --appmetrics
+npm run start -- bunyan:syslog $ITERATIONS
+npm run start -- bunyan:syslog $ITERATIONS --appmetrics

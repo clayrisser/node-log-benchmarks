@@ -2,20 +2,17 @@ import log4js from 'log4js';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
+const { env } = process;
+
 log4js.configure({
   appenders: {
     fileLogs: { type: 'file', filename: 'log4js.log' },
     console: { type: 'console' },
     syslog: {
       type: 'log4js-syslog-appender',
-
       host: 'localhost',
       port: 514,
-      protocol: 'unix',
-      path: '/dev/log',
-      facility: 'local0',
-      useUdpSyslog: true,
-      product: 'basic-udp-test'
+      useUdpSyslog: env.PROTOCOL === 'UDP'
     }
   },
   categories: {
