@@ -1,6 +1,5 @@
+import 'winston-syslog';
 import winston from 'winston';
-// eslint-disable-next-line no-unused-vars
-import { Syslog } from 'winston-syslog';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
@@ -16,19 +15,8 @@ const filesystemLogger = winston.createLogger({
   transports: [new winston.transports.File({ filename: 'logs.log' })]
 });
 
-const options = {
-  level: 'info',
-  type: '5424',
-  host: 'localhost',
-  port: 514,
-  facility: 'local0',
-  protocol: 'unix',
-  path: '/dev/log',
-  app_name: 'Node logging Benchmark'
-};
-
 const syslogLogger = winston.createLogger({
-  transports: [new winston.transports.Syslog(options)]
+  transports: [new winston.transports.Syslog({ protocol: 'tcp4' })]
 });
 
 export default class WinstonLogger extends Logger {
