@@ -16,6 +16,7 @@ export default class Metrics {
       message = 'Hello, world!',
       transportName
     } = options;
+    const prettyMessage = `: ${message}`;
     const monitor = appmetrics
       ? require('./monitor').default
       : {
@@ -34,7 +35,7 @@ export default class Metrics {
       const startTime = Date.now();
       const hrStart = process.hrtime();
       for (let i = 0; i < iterations; i++) {
-        this.log(message);
+        this.log(i + prettyMessage);
       }
       const hrEnd = process.hrtime(hrStart);
       const time = hrEnd[0] * 1000 + hrEnd[1] / 1000000;
