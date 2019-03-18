@@ -32,6 +32,7 @@ The source code for the project is on GitHub at
 
 ## Hardware and Software
 
+| Name             | Spec                                              |
 |------------------+---------------------------------------------------|
 | Processors       | Intel Core i7-7700 @ 2.80GHz (4 cores, 8 threads) |
 | Memory           | 32GB Ram                                          |
