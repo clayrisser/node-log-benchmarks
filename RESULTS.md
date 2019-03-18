@@ -33,7 +33,7 @@ The source code for the project is on GitHub at
 ## Hardware and Software
 
 | Name             | Spec                                              |
-|------------------+---------------------------------------------------|
+|------------------|---------------------------------------------------|
 | Processors       | Intel Core i7-7700 @ 2.80GHz (4 cores, 8 threads) |
 | Memory           | 32GB Ram                                          |
 | Operating System | 64-bit Ubuntu 18.04.2 LTS Server                  |
@@ -49,6 +49,12 @@ For the first set of test results, we benchmarked the performance of the
 libraries when logging to the console.
 
 #### log4js
+
+_log4js 1cpu_
+![log4js 1cpu](images/console/1cpu/log4js.png)
+
+_log4js 8cpus_
+![log4js 8cpus](images/console/8cpus/log4js.png)
 
 | log4js      |     1 CPU |    8 CPUs |
 |-------------|-----------|-----------|
