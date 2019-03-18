@@ -236,14 +236,14 @@ _8cpus_
 
 _1cpu_
 
-![1cpu](images/filesystem/1cpu/winston.png)
+![1cpu](images/syslog/udp/1cpu/winston.png)
 
 _8cpus_
 
-![8cpus](images/filesystem/8cpus/winston.png)
+![8cpus](images/syslog/udp/8cpus/winston.png)
 
 |             | 1 CPU       | 1 CPU  | 1 CPU       | 8 CPUs      | 8 CPUs | 8 CPUs      |
-|-------------+-------------+--------+-------------+-------------+--------+-------------|
+|-------------|-------------|--------|-------------|-------------|--------|-------------|
 |             | _unblocked_ | _done_ | _drop rate_ | _unblocked_ | _done_ | _drop rate_ |
 | Test 1      |             |        |             | 76702       | 142871 |             |
 | Test 2      |             |        |             |             |        |             |
@@ -278,11 +278,11 @@ syslog.
 
 _1cpu_
 
-![1cpu](images/filesystem/1cpu/bunyan.png)
+![1cpu](images/syslog/udp/1cpu/bunyan.png)
 
 _8cpus_
 
-![8cpus](images/filesystem/8cpus/bunyan.png)
+![8cpus](images/syslog/udp/8cpus/bunyan.png)
 
 |             |       1 CPU |      1 CPU |       1 CPU |      8 CPUs |    8 CPUs |      8 CPUs |
 |-------------|-------------|------------|-------------|-------------|-----------|-------------|
@@ -295,7 +295,7 @@ _8cpus_
 #### Filesystem Summary
 
 |         |       1 CPU |  1 CPU |       1 CPU |      8 CPUs | 8 CPUs |      8 CPUs |
-|---------+-------------+--------+-------------+-------------+--------+-------------|
+|---------|-------------|--------|-------------|-------------|--------|-------------|
 |         | _unblocked_ | _done_ | _drop rate_ | _unblocked_ | _done_ | _drop rate_ |
 | log4js  |        6211 |  59497 |       0.00% |        5883 |  11955 |       0.00% |
 | winston |             |        |             |       76702 | 142871 |             |
