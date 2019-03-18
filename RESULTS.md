@@ -9,6 +9,12 @@ logging and  impact on the overall application.
 For this test, we investigated some of the most commonly used Nodejs logging
 libraries:
 
+* `log4js`
+* `winston`
+* `bunyan`
+
+We also used the following additional libraries
+
 * `winston-syslog` for syslog logging with winston
 * `node-bunyan-syslog` for syslog logging with bunyan
 
