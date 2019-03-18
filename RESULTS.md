@@ -70,6 +70,14 @@ time.
 
 #### winston
 
+_1cpu_
+
+![1cpu](images/console/1cpu/winston.png)
+
+_8cpus_
+
+![8cpus](images/console/8cpus/winston.png)
+
 | winston     |     1 CPU |    8 CPUs |
 |-------------|-----------|-----------|
 | Test 1      |     32128 |     11010 |
@@ -80,6 +88,15 @@ time.
 Again, additional CPUs had an large effect on the time.
 
 #### bunyan
+
+
+_1cpu_
+
+![1cpu](images/console/1cpu/bunyan.png)
+
+_8cpus_
+
+![8cpus](images/console/8cpus/bunyan.png)
 
 | bunyan |     1 CPU |    8 CPUs |
 |-------------|-----------|-----------|
