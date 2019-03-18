@@ -1,4 +1,4 @@
-# Benchmarking Popular Node.js Logging Libraries
+# Benchmarking Popular NodeJS Logging Libraries
 
 Loggly ran a series of performance tests on some of the most popular node js
 libraries. These tests are designed to show how quickly each library processed
@@ -32,10 +32,10 @@ The source code for the project is on GitHub at
 
 ## Hardware and Software
 
-Processors: Intel Core i7-7700 @ 2.80GHz (4 cores, 8 threads)
-Memory: 32GB Ram
-Operating System: 64-bit Ubuntu 18.04.2 LTS Server
-Node: 8.15.1 LTS
+| Processors       | Intel Core i7-7700 @ 2.80GHz (4 cores, 8 threads) |
+| Memory           | 32GB Ram                                          |
+| Operating System | 64-bit Ubuntu 18.04.2 LTS Server                  |
+| NodeJS           | 8.15.1 LTS                                        |
 
 ## Test Results
 
