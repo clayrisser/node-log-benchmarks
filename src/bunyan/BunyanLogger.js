@@ -3,6 +3,8 @@ import bsyslog from 'bunyan-syslog';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
+const { env } = process;
+
 const consoleLogger = bunyan.createLogger({
   name: 'console',
   stream: process.stdout,
@@ -26,7 +28,7 @@ const syslogLogger = bunyan.createLogger({
       level: 'info',
       type: 'raw',
       stream: bsyslog.createBunyanStream({
-        type: 'sys',
+        type: env.PROTOCOL === 'UDP' ? 'sys' : 'tcp',
         facility: bsyslog.local0,
         host: 'localhost',
         port: 514

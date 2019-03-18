@@ -3,6 +3,8 @@ import winston from 'winston';
 import Logger from '../Logger';
 import Metrics from '../Metrics';
 
+const { env } = process;
+
 const consoleLogger = winston.createLogger({
   transports: [
     new winston.transports.Console({
@@ -16,7 +18,11 @@ const filesystemLogger = winston.createLogger({
 });
 
 const syslogLogger = winston.createLogger({
-  transports: [new winston.transports.Syslog({ protocol: 'tcp4' })]
+  transports: [
+    new winston.transports.Syslog({
+      protocol: env.PROTOCOL === 'UDP' ? 'udp4' : 'tcp4'
+    })
+  ]
 });
 
 export default class WinstonLogger extends Logger {

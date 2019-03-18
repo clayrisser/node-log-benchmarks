@@ -12,7 +12,7 @@ log4js.configure({
       type: 'log4js-syslog-appender',
       host: 'localhost',
       port: 514,
-      useUdpSyslog: env.PROTOCOL === 'UDP'
+      transport: env.PROTOCOL === 'UDP' ? 'UDP' : 'TCP'
     }
   },
   categories: {
