@@ -205,3 +205,98 @@ log4js seemed to have the worst results writing to a filesystem, sometimes
 taking over 5 times the amount of time to write to the filesystem. Winston
 unblocked the event loop the fastest, but bunyan finished writing to the
 filesystem the fastest.
+
+### Syslog UDP
+
+For the seconds set of test results, we benchmarked the performance of the
+libraries when sending the logs to syslog.
+
+Again, notice that each test result contains two times, _unblocked_  and _done_.
+This is because the libraries sometimes asyncronously send the logs to syslog.
+
+#### log4js
+
+_1cpu_
+
+![1cpu](images/syslog/udp/1cpu/log4js.png)
+
+_8cpus_
+
+![8cpus](images/syslog/udp/8cpus/log4js.png)
+
+|             |       1 CPU |     1 CPU |       1 CPU |      8 CPUs |    8 CPUs |      8 CPUs |
+|-------------|-------------|-----------|-------------|-------------|-----------|-------------|
+|             | _unblocked_ |    _done_ | _drop rate_ | _unblocked_ |    _done_ | _drop rate_ |
+| Test 1      |        6117 |     60486 |       0.00% |        5912 |     11891 |       0.00% |
+| Test 2      |        6303 |     58396 |       0.00% |        6101 |     12255 |       0.00% |
+| Test 3      |        6214 |     59609 |       0.00% |        5635 |     11719 |       0.00% |
+| **Average** |    **6211** | **59497** |   **0.00%** |    **5883** | **11955** |   **0.00%** |
+
+#### winston
+
+_1cpu_
+
+![1cpu](images/filesystem/1cpu/winston.png)
+
+_8cpus_
+
+![8cpus](images/filesystem/8cpus/winston.png)
+
+|             | 1 CPU       | 1 CPU  | 1 CPU       | 8 CPUs      | 8 CPUs | 8 CPUs      |
+|-------------+-------------+--------+-------------+-------------+--------+-------------|
+|             | _unblocked_ | _done_ | _drop rate_ | _unblocked_ | _done_ | _drop rate_ |
+| Test 1      |             |        |             | 76702       | 142871 |             |
+| Test 2      |             |        |             |             |        |             |
+| Test 3      |             |        |             |             |        |             |
+| **Average** | ****        | ****   | ****        | **76702**   | **142871**   | ****        |
+
+Frustratingly, winston does a really poor job sending logs to syslog over UDP.
+First of all, it's worth mentioning that when it did work it took well over a
+minute to unblock the event loop, and took over two minutes to finish sending
+the logs to syslog. However, most of the times I tested it, I ran out of memory
+before I could finish.
+
+```
+#
+# Fatal error in , line 0
+# API fatal error handler returned after process out of memory
+#
+Illegal instruction (core dumped)
+```
+
+Most of the time the heap would run out of memory.
+
+```
+FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory
+```
+
+This tells me that when using UDP, the library aggregates all the logs in the heap before
+sending them to syslog, instead of immediately streaming the logs over to
+syslog.
+
+#### bunyan
+
+_1cpu_
+
+![1cpu](images/filesystem/1cpu/bunyan.png)
+
+_8cpus_
+
+![8cpus](images/filesystem/8cpus/bunyan.png)
+
+|             |       1 CPU |      1 CPU |       1 CPU |      8 CPUs |    8 CPUs |      8 CPUs |
+|-------------|-------------|------------|-------------|-------------|-----------|-------------|
+|             | _unblocked_ |     _done_ | _drop rate_ | _unblocked_ |    _done_ | _drop rate_ |
+| Test 1      |      102314 |     102325 |       0.00% |       12188 |     12216 |       0.30% |
+| Test 2      |      106427 |     106466 |       0.00% |       11425 |     11436 |       0.37% |
+| Test 3      |      104309 |     104320 |       0.00% |       12424 |     12436 |       0.38% |
+| **Average** |  **104350** | **104370** |   **0.00%** |   **12012** | **12029** |   **0.35%** |
+
+#### Filesystem Summary
+
+|         |       1 CPU |  1 CPU |       1 CPU |      8 CPUs | 8 CPUs |      8 CPUs |
+|---------+-------------+--------+-------------+-------------+--------+-------------|
+|         | _unblocked_ | _done_ | _drop rate_ | _unblocked_ | _done_ | _drop rate_ |
+| log4js  |        6211 |  59497 |       0.00% |        5883 |  11955 |       0.00% |
+| winston |             |        |             |       76702 | 142871 |             |
+| bunyan  |      104350 | 104370 |       0.00% |       12012 |  12029 |       0.35% |
