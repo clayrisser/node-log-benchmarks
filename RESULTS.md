@@ -33,8 +33,11 @@ The source code for the project is on GitHub at
 ## Hardware and Software
 
 Processors: Intel Core i7-7700 @ 2.80GHz (4 cores, 8 threads)
+
 Memory: 32GB Ram
+
 Operating System: 64-bit Ubuntu 18.04.2 LTS Server
+
 Node: 8.15.1 LTS
 
 ## Test Results
