@@ -50,13 +50,13 @@ libraries when logging to the console.
 
 #### log4js
 
-_log4js 1cpu_
+_1cpu_
 
-![log4js 1cpu](images/console/1cpu/log4js.png)
+![1cpu](images/console/1cpu/log4js.png)
 
-_log4js 8cpus_
+_8cpus_
 
-![log4js 8cpus](images/console/8cpus/log4js.png)
+![8cpus](images/console/8cpus/log4js.png)
 
 | log4js      |     1 CPU |    8 CPUs |
 |-------------|-----------|-----------|
