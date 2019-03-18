@@ -142,7 +142,7 @@ _8cpus_
 
 ![8cpus](images/filesystem/8cpus/log4js.png)
 
-|             |       1 CPU |    1 CPUs |      8 CPUs |    8 CPUs |
+|             |       1 CPU |    1 CPU |      8 CPUs |    8 CPUs |
 |-------------|-------------|-----------|-------------|-----------|
 |             | _unblocked_ |    _done_ | _unblocked_ |    _done_ |
 | Test 1      |       15983 |     32228 |       15241 |     31529 |
@@ -162,7 +162,7 @@ _8cpus_
 
 ![8cpus](images/filesystem/8cpus/winston.png)
 
-|             |       1 CPU |   1 CPUs |      8 CPUs |   8 CPUs |
+|             |       1 CPU |   1 CPU |      8 CPUs |   8 CPUs |
 |-------------|-------------|----------|-------------|----------|
 |             | _unblocked_ |   _done_ | _unblocked_ |   _done_ |
 | Test 1      |         691 |     8891 |         431 |     7351 |
@@ -182,7 +182,7 @@ _8cpus_
 
 ![8cpus](images/filesystem/8cpus/bunyan.png)
 
-|             |       1 CPU |   1 CPUs |      8 CPUs |   8 CPUs |
+|             |       1 CPU |   1 CPU |      8 CPUs |   8 CPUs |
 |-------------|-------------|----------|-------------|----------|
 |             | _unblocked_ |   _done_ | _unblocked_ |   _done_ |
 | Test 1      |        4212 |     4476 |        3815 |     4059 |
@@ -194,7 +194,7 @@ Surprisingly again, additional CPUs had little effect on the results.
 
 #### Filesystem Summary
 
-|         |       1 CPU | 1 CPUs |      8 CPUs | 8 CPUs |
+|         |       1 CPU | 1 CPU |      8 CPUs | 8 CPUs |
 |---------|-------------|--------|-------------|--------|
 |         | _unblocked_ | _done_ | _unblocked_ | _done_ |
 | log4js  |       15890 |  32276 |       15249 |  31584 |
