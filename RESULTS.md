@@ -248,13 +248,13 @@ _8cpus_
 
 ![8cpus](images/syslog/udp/8cpus/winston.png)
 
-|             | 1 CPU       | 1 CPU  | 1 CPU       | 8 CPUs      | 8 CPUs | 8 CPUs      |
-|-------------|-------------|--------|-------------|-------------|--------|-------------|
-|             | _unblocked_ | _done_ | _drop rate_ | _unblocked_ | _done_ | _drop rate_ |
-| Test 1      |             |        |             | 76702       | 142871 |             |
-| Test 2      |             |        |             |             |        |             |
-| Test 3      |             |        |             |             |        |             |
-| **Average** | ****        | ****   | ****        | **76702**   | **142871**   | ****        |
+|             | 1 CPU       | 1 CPU   | 1 CPU       | 8 CPUs      | 8 CPUs     | 8 CPUs      |
+|-------------|-------------|---------|-------------|-------------|------------|-------------|
+|             | _unblocked_ | _done_  | _drop rate_ | _unblocked_ | _done_     | _drop rate_ |
+| Test 1      | N/A         | N/A     | N/A         | 76702       | 142871     | N/A         |
+| Test 2      | N/A         | N/A     | N/A         | N/A         | N/A        | N/A         |
+| Test 3      | N/A         | N/A     | N/A         | N/A         | N/A        | N/A         |
+| **Average** | **N/A**     | **N/A** | **N/A**     | **76702**   | **142871** | **N/A**     |
 
 Frustratingly, winston does a really poor job sending logs to syslog over UDP.
 First of all, it's worth mentioning that when it did work it took well over a
@@ -311,6 +311,59 @@ _8cpus_
 
 #### log4js
 
+|             | 1 CPU       | 1 CPU   | 1 CPU       | 8 CPUs      | 8 CPUs  | 8 CPUs      |
+|-------------|-------------|---------|-------------|-------------|---------|-------------|
+|             | _unblocked_ | _done_  | _drop rate_ | _unblocked_ | _done_  | _drop rate_ |
+| Test 1      | N/A         | N/A     | N/A         | N/A         | N/A     | N/A         |
+| Test 2      | N/A         | N/A     | N/A         | N/A         | N/A     | N/A         |
+| Test 3      | N/A         | N/A     | N/A         | N/A         | N/A     | N/A         |
+| **Average** | **N/A**     | **N/A** | **N/A**     | **N/A**     | **N/A** | **N/A**     |
+
 ```
 (node:31818) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'trace' of undefined
 ```
+
+#### winston
+
+_1cpu_
+
+![1cpu](images/syslog/tcp/1cpu/winston.png)
+
+_8cpus_
+
+![8cpus](images/syslog/tcp/8cpus/winston.png)
+
+|             |       1 CPU |     1 CPU |       1 CPU |      8 CPUs |   8 CPUs |      8 CPUs |
+|-------------|-------------|-----------|-------------|-------------|----------|-------------|
+|             | _unblocked_ |    _done_ | _drop rate_ | _unblocked_ |   _done_ | _drop rate_ |
+| Test 1      |       10132 |     10730 |      97.24% |        9236 |     9727 |      98.02% |
+| Test 2      |       10872 |     11471 |      97.42% |        8836 |     8940 |      98.02% |
+| Test 3      |       10858 |     10963 |      96.74% |        8923 |     9419 |      97.79% |
+| **Average** |   **10621** | **11055** |  **97.13%** |    **8998** | **9362** |  **97.94%** |
+
+#### bunyan
+
+_1cpu_
+
+![1cpu](images/syslog/tcp/1cpu/bunyan.png)
+
+_8cpus_
+
+![8cpus](images/syslog/tcp/8cpus/bunyan.png)
+
+|             |       1 CPU |     1 CPU |       1 CPU |      8 CPUs |    8 CPUs |      8 CPUs |
+|-------------|-------------|-----------|-------------|-------------|-----------|-------------|
+|             | _unblocked_ |    _done_ | _drop rate_ | _unblocked_ |    _done_ | _drop rate_ |
+| Test 1      |        6596 |     22523 |       0.00% |        6737 |     26168 |       0.00% |
+| Test 2      |        6457 |     22271 |       0.00% |        6769 |     24518 |       0.00% |
+| Test 3      |        6722 |     22434 |       0.00% |        6523 |     24267 |       0.00% |
+| **Average** |    **6592** | **22409** |   **0.00%** |    **6676** | **24984** |   **0.00%** |
+
+#### Syslog UDP Summary
+
+|         | 1 CPU       | 1 CPU  | 1 CPU       | 8 CPUs      | 8 CPUs | 8 CPUs      |
+|---------|-------------|--------|-------------|-------------|--------|-------------|
+|         | _unblocked_ | _done_ | _drop rate_ | _unblocked_ | _done_ | _drop rate_ |
+| log4js  | N/A         | N/A    | N/A         | N/A         | N/A    | N/A         |
+| winston | 10621       | 11055  | 97.13%      | 8998        | 9362   | 97.94%      |
+| bunyan  | 6592        | 22409  | 0.00%       | 6676        | 24984  | 0.00%       |
