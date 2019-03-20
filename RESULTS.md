@@ -236,11 +236,11 @@ _8cpus_
 
 _1cpu_
 
-![1cpu](images/filesystem/1cpu/winston.png)
+![1cpu](images/syslog/udp/1cpu/winston.png)
 
 _8cpus_
 
-![8cpus](images/filesystem/8cpus/winston.png)
+![8cpus](images/syslog/udp/8cpus/winston.png)
 
 |             | 1 CPU       | 1 CPU  | 1 CPU       | 8 CPUs      | 8 CPUs | 8 CPUs      |
 |-------------|-------------|--------|-------------|-------------|--------|-------------|
@@ -278,11 +278,11 @@ syslog.
 
 _1cpu_
 
-![1cpu](images/filesystem/1cpu/bunyan.png)
+![1cpu](images/syslog/udp/1cpu/bunyan.png)
 
 _8cpus_
 
-![8cpus](images/filesystem/8cpus/bunyan.png)
+![8cpus](images/syslog/udp/8cpus/bunyan.png)
 
 |             |       1 CPU |      1 CPU |       1 CPU |      8 CPUs |    8 CPUs |      8 CPUs |
 |-------------|-------------|------------|-------------|-------------|-----------|-------------|

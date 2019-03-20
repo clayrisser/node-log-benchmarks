@@ -2,6 +2,7 @@ import express from 'express';
 import 'winston-rsyslog2';
 import expressWinston from 'express-winston';
 import winston from 'winston';
+import 'winston-syslog';
 
 const { env } = process;
 const options = {
@@ -14,8 +15,11 @@ const logger = console;
 app.use(
   expressWinston.logger({
     transports: [
-      new winston.transports.Rsyslog({
-        protocol: options.protocol === 'UDP' ? 'U' : 'T'
+      // new winston.transports.Rsyslog({
+      //   protocol: options.protocol === 'UDP' ? 'U' : 'T'
+      // })
+      new winston.transports.Syslog({
+        protocol: env.PROTOCOL === 'UDP' ? 'udp4' : 'tcp4'
       })
     ]
   })
