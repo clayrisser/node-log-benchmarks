@@ -306,3 +306,11 @@ _8cpus_
 | log4js  |        6211 |  59497 |       0.00% |        5883 |  11955 |       0.00% |
 | winston |             |        |             |       76702 | 142871 |             |
 | bunyan  |      104350 | 104370 |       0.00% |       12012 |  12029 |       0.35% |
+
+## Syslog TCP
+
+#### log4js
+
+```
+(node:31818) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'trace' of undefined
+```

@@ -106,4 +106,8 @@ async function json2csv(matricName, matricsData) {
   );
 }
 
+process.on('SIGINT', () => {
+  process.exit();
+});
+
 main();
