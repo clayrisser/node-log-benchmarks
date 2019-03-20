@@ -73,7 +73,6 @@
     "syslog": "^0.1.1-1",
     "syslogudp": "^0.0.5",
     "winston": "^3.2.1",
-    "winston-rsyslog2": "^0.0.5",
     "winston-syslog": "https://github.com/Savorylabs/winston-syslog/archive/2.0.1.tar.gz"
   },
   "devDependencies": {
