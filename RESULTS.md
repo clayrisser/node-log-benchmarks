@@ -121,6 +121,8 @@ effect than the previous logging libraries.
 | winston | 31053 |  10756 |
 | bunyan  | 29843 |  15062 |
 
+![8cpus](images/console/benchmarks.png)
+
 Looking at the results, winston is the clear winner for speed in multithreaded
 systems, however bunyan performed slightly better in a single threaded
 system.
@@ -206,6 +208,8 @@ Surprisingly again, additional CPUs had little effect on the results.
 | log4js  |       15890 |  32276 |       15249 |  31584 |
 | winston |         724 |   8982 |         475 |   7438 |
 | bunyan  |        4184 |   4445 |        3954 |   4197 |
+
+![8cpus](images/filesystem/benchmarks.png)
 
 log4js seemed to have the worst results writing to a filesystem, sometimes
 taking over 5 times the amount of time to write to the filesystem. Winston
@@ -307,6 +311,10 @@ _8cpus_
 | winston |             |        |             |       76702 | 142871 |             |
 | bunyan  |      104350 | 104370 |       0.00% |       12012 |  12029 |       0.35% |
 
+![8cpus](images/syslog/udp/benchmarks.png)
+
+![8cpus](images/syslog/udp/drop-rate.png)
+
 ## Syslog TCP
 
 #### log4js
@@ -367,3 +375,7 @@ _8cpus_
 | log4js  | N/A         | N/A    | N/A         | N/A         | N/A    | N/A         |
 | winston | 10621       | 11055  | 97.13%      | 8998        | 9362   | 97.94%      |
 | bunyan  | 6592        | 22409  | 0.00%       | 6676        | 24984  | 0.00%       |
+
+![8cpus](images/syslog/tcp/benchmarks.png)
+
+![8cpus](images/syslog/tcp/drop-rate.png)
