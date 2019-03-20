@@ -136,7 +136,7 @@ system.
 
 ### Filesystem
 
-For the seconds set of test results, we benchmarked the performance of the
+For the second set of test results, we benchmarked the performance of the
 libraries when writing the logs to the filesystem.
 
 Notice that each test result contains two times, _unblocked_  and _done_. This
@@ -236,7 +236,7 @@ first.
 
 ### Syslog UDP
 
-For the seconds set of test results, we benchmarked the performance of the
+For the third set of test results, we benchmarked the performance of the
 libraries when sending the logs to syslog over UDP.
 
 Again, notice that each test result contains two times, _unblocked_  and _done_.
@@ -260,6 +260,18 @@ _8cpus_
 | Test 3      |        6214 |     59609 |       0.00% |        5635 |     11719 |       0.00% |
 | **Average** |    **6211** | **59497** |   **0.00%** |    **5883** | **11955** |   **0.00%** |
 
+For log4js, additional CPUs had a profound effect on the time it took to send
+the logs to syslog over UDP. However, if you look closely, you will notice that
+the event loop was unblocked at roughly the same time regardless of the number
+of CPUs. This is again because the event loop runs on a single thread.
+
+The first graph showing the single CPU usage is very insightful. We can visually
+see that the CPU is at 100% performance but then drops of slightly. It drops at
+the exact moment the event loop is unblocked. The majority of the time, NodeJS
+is sitting around doing very little work while it waits for syslog to finish
+receiving and processing all of the logs. The same thing happens when there are
+multiple CPUs, but it's harder to spot in the graph.
+
 #### winston
 
 _1cpu_
@@ -278,11 +290,11 @@ _8cpus_
 | Test 3      | N/A         | N/A     | N/A         | N/A         | N/A        | N/A         |
 | **Average** | **N/A**     | **N/A** | **N/A**     | **76702**   | **142871** | **N/A**     |
 
-Frustratingly, winston does a really poor job sending logs to syslog over UDP.
-First of all, it's worth mentioning that when it did work it took well over a
-minute to unblock the event loop, and took over two minutes to finish sending
-the logs to syslog. However, most of the times I tested it, I ran out of memory
-before I could finish.
+I had a terrible expirience getting winston to work with syslog over UDP. First
+of all, it's worth mentioning that when it did work it took well over a minute
+to unblock the event loop, and took over two minutes to finish sending the logs
+to syslog. However, most of the times I tested it, I ran out of memory before I
+could finish.
 
 ```
 #
@@ -298,9 +310,15 @@ Most of the time the heap would run out of memory.
 FATAL ERROR: CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory
 ```
 
-This tells me that when using UDP, the library aggregates all the logs in the heap before
-sending them to syslog, instead of immediately streaming the logs over to
-syslog.
+I was unable to get it to work at all with 1 CPU. Again, due to memory
+constraints. These were not particularly memory constraints from the computer,
+but memory constraints in the default settings of NodeJS. It may be possible to
+get it to work by setting the `--max-old-space-size` flag to a higher value.
+
+I am assuming that when using UDP, the library aggregates all the logs in the
+heap before sending them to syslog, instead of immediately streaming the logs
+over to syslog. At any rate, it sends the logs over to syslog over UDP in a way
+that does not work well when slammed with a million logs.
 
 #### bunyan
 
@@ -320,6 +338,19 @@ _8cpus_
 | Test 3      |      104309 |     104320 |       0.00% |       12424 |     12436 |       0.38% |
 | **Average** |  **104350** | **104370** |   **0.00%** |   **12012** | **12029** |   **0.35%** |
 
+Additional CPUs definitely increased the performance of sending logs to syslog
+over UDP with bunyan.
+
+Unlike the previous libraries, bunyan took roughly the same amount of time to
+unblock the event loop as it took to finish sending the logs to syslog. This
+probably means bunyan is executing the logs at roughly the same rate it is
+sending the logs to syslog. It is worth noting that this observation happens
+with 1 CPU as well as 8 CPUs. This may mean bunyan is sending the logs to syslog
+synchronously instead of asynchronously.
+
+Bunyan did drop some logs, although it's interesting that it consistently did not
+drop any logs when executed on a single CPU.
+
 #### Syslog UDP Summary
 
 |         |       1 CPU |  1 CPU |       1 CPU |      8 CPUs | 8 CPUs |      8 CPUs |
@@ -332,6 +363,17 @@ _8cpus_
 ![8cpus](images/syslog/udp/benchmarks.png)
 
 ![8cpus](images/syslog/udp/drop-rate.png)
+
+Because of the very poor performance of winston, I am not going to compare it
+with log4js and bunyan.
+
+Log4js and bunyan both finished around the same time when using multiple CPUs,
+however log4js unblocked the event loop much sooner and performed better on a
+single CPU.
+
+Log4js also successfully sent all of its logs to syslog without dropping a
+single one. Though bunyan had a low drop rate, it still managed to drop a few
+logs. I would say log4js is a clear winner when sending logs to syslog over UDP.
 
 ## Syslog TCP
 
