@@ -72,7 +72,7 @@ _8cpus_
 | **Average** | **66999** | **24385** |
 
 From these results we can see additional CPUs had a significant effect on the
-time.
+amount of time it took log4js to log to the console.
 
 #### winston
 
@@ -91,7 +91,7 @@ _8cpus_
 | Test 3      |     29844 |     10666 |
 | **Average** | **31053** | **10756** |
 
-Again, additional CPUs had an large effect on the time.
+Again, additional CPUs had an large effect on the time with winston.
 
 #### bunyan
 
@@ -122,6 +122,13 @@ effect than the previous logging libraries.
 | bunyan  | 29843 |  15062 |
 
 ![8cpus](images/console/benchmarks.png)
+
+It surprised me that additional CPUs had a significant effect on the time
+because NodeJS is a single threaded program. However, technically it's just the
+event loop that is single threaded. There are many NodeJS tasks that take place
+on parallel threads, such as garbage collection. It's also worth noting that
+the tty (terminal) was doing a bunch of work printing the logs to the screen,
+which would have most definitely executed on a separate thread.
 
 Looking at the results, winston is the clear winner for speed in multithreaded
 systems, however bunyan performed slightly better in a single threaded
@@ -158,7 +165,8 @@ _8cpus_
 | Test 3      |       14749 |     31023 |       15055 |     31890 |
 | **Average** |   **15890** | **32276** |   **15249** | **31584** |
 
-It's interesting that additional CPUs had little effect on the time.
+It's interesting that additional CPUs had little effect on the time with the
+log4js library.
 
 #### winston
 
@@ -178,7 +186,7 @@ _8cpus_
 | Test 3      |         760 |     8885 |         497 |     7602 |
 | **Average** |     **724** | **8982** |     **475** | **7438** |
 
-Additional CPUs seemed to have a small effect on the time.
+Again, with winston, additional CPUs seemed to have a small effect on the time.
 
 #### bunyan
 
@@ -198,7 +206,8 @@ _8cpus_
 | Test 3      |        4076 |     4351 |        3935 |     4175 |
 | **Average** |    **4184** | **4445** |    **3954** | **4197** |
 
-Surprisingly again, additional CPUs had little effect on the results.
+Surprisingly again, additional CPUs had little effect on the results with
+bunyan.
 
 #### Filesystem Summary
 
@@ -211,15 +220,24 @@ Surprisingly again, additional CPUs had little effect on the results.
 
 ![8cpus](images/filesystem/benchmarks.png)
 
-log4js seemed to have the worst results writing to a filesystem, sometimes
+After seeing how much additional CPUs effected console logs, I was very
+surprised to see that logging to the filesystem performed roughly the same with
+additional CPUs. This is mostly likely because the work required to write files
+is much less than the work required to print to a tty device, so less
+multithreaded activity was happening.
+
+Log4js seemed to have the worst results writing to a filesystem, sometimes
 taking over 5 times the amount of time to write to the filesystem. Winston
 unblocked the event loop the fastest, but bunyan finished writing to the
-filesystem the fastest.
+filesystem the fastest. So, if you're choosing a log library based on filesystem
+performance, the choice would depend on weather you want the event loop
+unblocked the fastest or if you want the overall program execution to finish
+first.
 
 ### Syslog UDP
 
 For the seconds set of test results, we benchmarked the performance of the
-libraries when sending the logs to syslog.
+libraries when sending the logs to syslog over UDP.
 
 Again, notice that each test result contains two times, _unblocked_  and _done_.
 This is because the libraries sometimes asyncronously send the logs to syslog.
