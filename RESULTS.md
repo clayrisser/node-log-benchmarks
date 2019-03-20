@@ -377,6 +377,12 @@ logs. I would say log4js is a clear winner when sending logs to syslog over UDP.
 
 ## Syslog TCP
 
+For the forth set of test results, we benchmarked the performance of the
+libraries when sending the logs to syslog over TCP.
+
+Again, notice that each test result contains two times, _unblocked_  and _done_.
+This is because the libraries sometimes asyncronously send the logs to syslog.
+
 #### log4js
 
 |             | 1 CPU       | 1 CPU   | 1 CPU       | 8 CPUs      | 8 CPUs  | 8 CPUs      |
@@ -386,6 +392,10 @@ logs. I would say log4js is a clear winner when sending logs to syslog over UDP.
 | Test 2      | N/A         | N/A     | N/A         | N/A         | N/A     | N/A         |
 | Test 3      | N/A         | N/A     | N/A         | N/A         | N/A     | N/A         |
 | **Average** | **N/A**     | **N/A** | **N/A**     | **N/A**     | **N/A** | **N/A**     |
+
+Sadly I was not able to get log4js when sending logs to syslog over TCP. I
+believe there is a bug in their library. I consistently received the following
+error.
 
 ```
 (node:31818) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'trace' of undefined
@@ -409,6 +419,24 @@ _8cpus_
 | Test 3      |       10858 |     10963 |      96.74% |        8923 |     9419 |      97.79% |
 | **Average** |   **10621** | **11055** |  **97.13%** |    **8998** | **9362** |  **97.94%** |
 
+Winston was relatively fast when sending logs to syslog over TCP, however it had
+a horrific drop rate. Most of the logs were either dropped or corrupted.
+Additional CPUs had very little effect on the results, both in time and drop
+rates.
+
+Below is an example of one of the corrupted logs syslog recieved from winston.
+You can see that the message was cut off.
+
+```
+Mar 17 19:21:42 localhost /home/codejamninja/.nvm/versions/node/v8.15.1/bin/node[22463]: {"mes
+```
+
+The log was supposed to look like the following.
+
+```
+Mar 17 19:21:42 localhost /home/codejamninja/.nvm/versions/node/v8.15.1/bin/node[22463]: {"message": "92342: Hello, world!"}
+```
+
 #### bunyan
 
 _1cpu_
@@ -427,7 +455,17 @@ _8cpus_
 | Test 3      |        6722 |     22434 |       0.00% |        6523 |     24267 |       0.00% |
 | **Average** |    **6592** | **22409** |   **0.00%** |    **6676** | **24984** |   **0.00%** |
 
-#### Syslog UDP Summary
+Bunyan performed relatively well when sending logs to syslog over TCP. It did
+not drop a single log and unblocked the event loop very quickly. One thing that
+did surprise me though is that additional CPUs consistently performed worse than
+running on a single CPU. I am baffled by that, though this is the only scenario
+that happened.
+
+#### Syslog TCP Summary
+
+Since bunyan was the only library that successfully sent logs to syslog over TCP
+without dropping any of them, it is the clear winner. Despite it performing
+worse when multiple CPUs were introduced, it still was relatively fast.
 
 |         | 1 CPU       | 1 CPU  | 1 CPU       | 8 CPUs      | 8 CPUs | 8 CPUs      |
 |---------|-------------|--------|-------------|-------------|--------|-------------|
@@ -439,3 +477,17 @@ _8cpus_
 ![8cpus](images/syslog/tcp/benchmarks.png)
 
 ![8cpus](images/syslog/tcp/drop-rate.png)
+
+## Conclusion
+
+These results really took me by surprise. I was thinking there would be an
+overall winner, but each library performed best in different areas under
+different conditions.
+
+Winston performed best when logging to the console. Winston and
+bunyan both performed best in their own ways when logging to the file system.
+log4js performed the best when sending logs to syslog over UDP. Bunyan had the
+best results when sending logs to syslog over TCP.
+
+So, which logging library should you use? I guess it depends on what you are
+using it for.
