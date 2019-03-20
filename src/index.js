@@ -57,39 +57,53 @@ function writeJson(result) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
-
   if (appmetrics) {
-    appmetricName = 'appmetrics.'
+    appmetricName = 'appmetrics.';
   }
-  const jsonFile = path.resolve(`./results/${iterations}/${benchmarkName}.console.${appmetricName}json`);
-
-  fs.writeFileSync(jsonFile, jsonData, 'utf8')
+  const jsonFile = path.resolve(
+    `./results/${iterations}/${benchmarkName}.console.${appmetricName}json`
+  );
+  fs.writeFileSync(jsonFile, jsonData, 'utf8');
   return result;
 }
-
 
 async function json2csv(matricName, matricsData) {
   let appmetricName = '';
   let fields;
   if (appmetrics) {
-    appmetricName = 'appmetrics.'
+    appmetricName = 'appmetrics.';
   }
   if (matricName === 'gcs') {
     fields = ['time', 'type', 'size', 'used', 'duration'];
-  }
-  else if (matricName === 'memories') {
-    fields = ['time', 'physical_total', 'physical_used', 'physical', 'private', 'virtual', 'physical_free', 'relative_time'];
-  }
-  else if (matricName === 'cpus') {
+  } else if (matricName === 'memories') {
+    fields = [
+      'time',
+      'physical_total',
+      'physical_used',
+      'physical',
+      'private',
+      'virtual',
+      'physical_free',
+      'relative_time'
+    ];
+  } else if (matricName === 'cpus') {
     fields = ['time', 'process', 'system'];
-  }
-  else if (matricName === 'loops') {
-    fields = ['count', 'minimum', 'maximum', 'average', 'cpu_user', 'cpu_system'];
-
+  } else if (matricName === 'loops') {
+    fields = [
+      'count',
+      'minimum',
+      'maximum',
+      'average',
+      'cpu_user',
+      'cpu_system'
+    ];
   }
   const json2csvParser = new Json2csvParser({ fields });
   const csv = json2csvParser.parse(matricsData);
-  fs.writeFileSync(`results/${iterations}/${benchmarkName}.console.${appmetricName}${matricName}.csv`, csv);
+  fs.writeFileSync(
+    `results/${iterations}/${benchmarkName}.console.${appmetricName}${matricName}.csv`,
+    csv
+  );
 }
 
 main();
